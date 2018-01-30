@@ -63,31 +63,106 @@ Given that Logistic regression algorithms are often used in today's commercial c
 \end{itemize}
 The back of the content will be reflected above.\\
 
-
+\section{Assumptions}
 \begin{itemize}
-\item the initial velocity and rotation of the ball,
-\item the initial velocity and rotation of the bat,
-\item the relative position and orientation of the bat and ball, and
-\item the force over time that the hitter hands applies on the handle.
+\item Assume that the historical business data of the lender is stable and trustworthy
+\item Assume the default is not affected by emergencies
+\item Assume that all borrowers have good credit history before
 \end{itemize}
-\lipsum[3]
-\begin{itemize}
-\item the angular velocity of the bat,
-\item the velocity of the ball, and
-\item the position of impact along the bat.
-\end{itemize}
-\lipsum[4]
-\emph{center of percussion} [Brody 1986], \lipsum[5]
 
-\begin{Theorem} \label{thm:latex}
-\LaTeX
-\end{Theorem}
-\begin{Lemma} \label{thm:tex}
-\TeX .
-\end{Lemma}
-\begin{proof}
-The proof of theorem.
-\end{proof}
+\section{Data Processing}
+\subsection{Data Screening}
+The amount of data is large, so our priority is to filter the data based on its completeness and validity.\\
+First, we screen the data of 30,000 historical business data provided by the lender:\\
+\begin{itemize}
+\item Since tag attributes are crucial and can not be completed, we delete all business data that did not indicate a default.
+\item In the analysis of the attributes, we found that there are a large number of missing attributes of AGENT and salary level in the data, in which the salary level can be complemented because it is a numerical attribute with continuous meaning. For AGENT, because it is text type data and Did not find it related to other attributes, so we choose to delete AGENT this attribute.
+\end{itemize}
+
+\subsection{Data Merging}
+\begin{itemize}
+\item when processing the data we found that the education level variables, there are college and below, junior high school and junior high school, the four classification of repeated phenomena, which are repeated graduate, doctoral and master's degree and more than three kinds of classification, so we will and specialist and below master degree or above and two classification.
+\item at the same time, we found that two kinds of definitions of divorce and divorce were duplicated in the marital status. We merged them into divorce. At the same time, we considered the semantic description of marital status. We merged the widowhood into divorce and merged the other into the unmarried.
+\item for borrowing time, we provide data from January to June 2017, so we combine it into 6 categories representing 6 months to facilitate later use. .
+\item for the working provinces, we divide the provinces into four large areas, the eastern, the northeast, the central and the western regions, according to the division of the sixteen regions of the Communist Party of China and the development of the provinces in the past year (Figure).
+\end{itemize}
+
+\subsection{Missing Value Processing}
+2.3 Missing Value Processing
+
+In statistics, missing data occur when no data value is stored for the variable in an observation.Missing data are a common occurrence and can have a significant effect on the conclusions that can be drawn from the data.\\
+\newline
+In the data we use, there is a large amount of data that is missing a salary grade variable, and we consider doing so due to the lack of a large amount of data and the variable is a numeric data with a continuous relationship. We have statistics on the available data and found that the overall data is normally distributed.\\
+% 图
+
+Then we consider that the pay scale may be influenced by the level of education and the work area, so we will analyze it on the assumption that different education levels and pay scales are different from those in the work area.\\
+% pic
+We found that at different levels of education, salary levels are basically normal distribution, so taking the level of compensation at different levels of education found. The proportion of high salaries at the educational level of masters and above is higher than that of other education levels. However, taking into consideration the low level of data in this level of education, The horizontal approximation is seen as a normal distribution.\\
+\newline
+For different workplaces, we also analyze their salary levels.\\
+We also found that in all workplaces, all salary levels are normally distributed, so we conclude that the salary level in this data is normally distributed, with no educational level or work area impact.
+\newline
+In this regard, we take the average and mode and draw the relevant charts for a preliminary analysis.\\
+% biao
+We can see that the average is 3.58 and the mode is 3. Taking into consideration and facilitating our later use, we decided to set the missing value of all pay levels to 3.\\
+
+\section{Our Model}
+Based on available information, consider the current credit scoring model and the industry's interpretative requirements for credit scoring models. Our initial consideration of the model is logistic regression.
+\newline
+The data, the marital status can not simply use the serial number to represent, this will result in some similar marital status but the actual situation is not. The marriage attribute itself is not sequential, so we carried out One-Hot encoding. By the same token, taking into account the rough change of the academic data itself, the order of academic qualifications becomes vague, and we also carry the One-Hot code for academic qualifications. Finally, consider the province data, the province of our data is a 6-digit zip code. It is observed that the left-most 2-digit postcode represents its province, so we converted that data to obtain the customer's province code. Taking into account the large number of provinces in China, we have reviewed the relevant information and found that China is divided into four major economic regions: the eastern region, the northeast region, the central region and the western region. The main contents of economic and social development in various regions are: development in the west, rejuvenation in the northeast, rise in the middle and development in the east. Taking into account the loan, credit score and economy, we divided the provinces data:
+\newline
+Northeast China (Heilongjiang, Jilin, Liaoning, Hulunbeier, Xing'an League, Tongliao, Chifeng, Xilin Gol League in eastern Inner Mongolia Autonomous Region)
+\newline
+Middle region (Shanxi, Henan, Hubei, Hunan, Jiangxi, Anhui)
+\newline
+Eastern China (Beijing, Tianjin, Hebei, Shandong, Jiangsu, Shanghai, Zhejiang, Fujian, Guangdong, Hainan)
+\newline
+Western Region (Sichuan Province, Guangxi Zhuang Autonomous Region, Guizhou Province, Yunnan Province, Chongqing Municipality, Shaanxi Province, Gansu Province, West Inner Mongolia Autonomous Region, Ningxia Hui Autonomous Region, Xinjiang Uygur Autonomous Region, Qinghai Province and Tibet Autonomous Region)
+\newline
+The following is based on the first two digits of the ID card coding:
+\begin{itemize}
+  \item Northeast: 21,22,23
+  \item Middle: 14,41,42,43,36,34
+  \item East: 11,12,13,37,32,31,33,35,44,46  
+  \item Western Region: 51,45,52,53,50,61,62,15,64,65,63,54
+\end{itemize}
+
+In fact, there is no order between provinces, so we once again conducted One-Hot encoding on the data.
+\newline
+After the above steps, the current data should be able to train. However, before training, we still need to do some characteristic engineering.
+We use a method commonly used in the industry for screening based on IV values.
+\newline
+\newline
+First introduce concepts and formulas.\\
+\newline
+\newline
+The full name of IV is Information Value, find the value of wo first wo value, here also introduced the concept of woe.
+\newline
+WOE (weight of Evidence) is actually an influence on the proportion of default when a certain value is taken from an independent variable. After WOE encoding, the independent variable actually has some standardized nature, that is, each value of the independent variable Can be directly compared (between WOE), and various values ​​between different independent variables can also be directly compared by WOE. Furthermore, we can study the variation (fluctuation) of the WOE value in the independent variable and construct the contribution rate and relative importance of each independent variable in combination with the coefficients fitted by the model. In general, the larger the coefficient, the greater the variance of woe, the greater the contribution of the independent variable (similar to some variance contribution), which can also be intuitively understood.\\
+To conclude, the process of independent variables (including coding and filtering) is largely based on the evaluation of the effects of univariate models when doing credit scoring models. In this evaluation process, ROC and IV examine the impact of independent variables on the target variables from different perspectives. Based on this investigation, we used the WOE value to encode the categorical independent variables so that the independent variables can be more intuitively understood The role of variables and direction, while enhancing the prediction effect.
+\newline
+The advantages of WOE transformation: Improve the predictive effect of the model and improve the comprehensibility of the model.
+\newline
+First group variables (how to say later), then for each group i, for the i group:
+\[woe_i = \ln(\frac{B_i / B_T}{G_i / G_T})\eqno (1)\]
+
+For example, if only the absolute value of woe is summed up, if some groups have a small number of A groups and a large number of B groups (obviously such a group is unreasonable), this is a small woe value of B and a large group A , Sum woe will not be small, apparently so unreasonable.
+
+Finally, we can sort the variables according to the size of each variable IV value. The greater the IV to retain.
+
+Take the credit scorecard modeling scenario as an example: X is the customer sample field, Y indicates whether the customer is overdue, where Y = 1 means overdue, Y = 0 means not overdue. We want to be able to use the information known to our clients to predict the probability of overdue after the customer borrows, in order to decide whether to lend.
+
+We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
+
+% \begin{Theorem} \label{thm:latex}
+% \LaTeX
+% \end{Theorem}
+% \begin{Lemma} \label{thm:tex}
+% \TeX .
+% \end{Lemma}
+% \begin{proof}
+% The proof of theorem.
+% \end{proof}
 
 \subsection{Other Assumptions}
 \lipsum[6]
