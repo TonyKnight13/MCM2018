@@ -95,6 +95,12 @@ TPR & In all samples that are actually positive, the ratio correctly judged as p
 \hline
 FPR & In all the negative samples, the ratio of false positives\\
 \hline
+p\_i & The probability of the i-th item\\
+\hline
+H & measures the uncertainty of random variables\\
+\hline
+Gini & Gini index (Gini impure)\\
+\hline
 \end{tabular}
 
 \section{Data Processing}
@@ -199,6 +205,27 @@ For example, if only the absolute value of woe is summed up, if some groups have
 \[IV = \sum_{k=0}^n IV_i\eqno (3)\]
 Finally, we can sort the variables according to the size of each variable IV value. The greater the IV to retain.
 \newline
+\begin{table}[h]
+\centering
+\caption{Predicted based on IV value}
+\begin{tabular}{c|c}
+\hline
+IV & Predictive Ability\\
+\hline
+<0.03 & NAUGHT\\
+\hline
+0.03 - 0.09 & LOW\\
+\hline
+0.1 - 0.29 & MIDDLE\\
+\hline
+0.3 - 0.49 & HIGH\\
+\hline
+>= 0.5 & VERYHIGH\\
+\hline
+\end{tabular}
+\label{tab1}
+\end{table}
+
 Take the credit scorecard modeling scenario as an example: X is the customer sample field, Y indicates whether the customer is overdue, where Y = 1 means overdue, Y = 0 means not overdue. We want to be able to use the information known to our clients to predict the probability of overdue after the customer borrows, in order to decide whether to lend.
 
 We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
