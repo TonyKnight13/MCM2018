@@ -33,6 +33,8 @@
         titlepage = true, abstract = true}
 \usepackage{palatino}
 \usepackage{lipsum}
+\usepackage{amsmath}  
+\usepackage{amssymb} 
 \title{The \LaTeX{} Template for MCM Version \MCMversion}
 \author{\small \href{http://www.latexstudio.net/}
   {\includegraphics[width=7cm]{mcmthesis-logo}}}
@@ -70,6 +72,49 @@ The back of the content will be reflected above.\\
 \item Assume that all borrowers have good credit history before
 \end{itemize}
 
+\section{Natations}
+\begin{tabular}{cc}
+\toprule
+Symbol & definition\\
+\hline
+TP & real case \\
+\hline
+FP & False Positives\\
+\hline
+FN & false counsel\\
+\hline
+TN & True Counter Example\\
+\hline
+i & Subscripts for various variables \\
+\hline
+woe\_i & a box of evidence weight \\
+\hline
+WOE & Weight of Evidence \\
+\hline
+w & weight \\
+\hline
+b & offset or constant \\
+\hline
+$\mathbf{w}$ & weight vector \\
+\hline
+IV\_i & Variables The amount of information in a bin \\
+\hline
+IV & Information value \\
+\hline
+B\_i & the number of bad clients \\
+\hline
+B\_T & Total number of bad clients \\
+\hline
+G\_i & number of good customers \\
+\hline
+G\_T & the total number of good customers \\
+\hline
+TPR & In all samples that are actually positive, the ratio correctly judged as positive\\
+\hline
+FPR & In all the negative samples, the ratio of false positives\\
+\hline
+\end{tabular}
+
 \section{Data Processing}
 \subsection{Data Screening}
 The amount of data is large, so our priority is to filter the data based on its completeness and validity.\\
@@ -88,6 +133,7 @@ First, we screen the data of 30,000 historical business data provided by the len
 \end{itemize}
 
 \begin{figure}
+\large
 \centering
 \includegraphics{map.png}
 \caption{National Economic Zone} \label{fig:National Economic Zone}
@@ -100,7 +146,13 @@ In statistics, missing data occur when no data value is stored for the variable 
 \newline
 In the data we use, there is a large amount of data that is missing a salary grade variable, and we consider doing so due to the lack of a large amount of data and the variable is a numeric data with a continuous relationship. We have statistics on the available data and found that the overall data is normally distributed.\\
 % 图
-
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=12cm]{sosl.png}
+\caption{The level of salary statistics} \label{fig:The level of salary statistics}
+\end{figure}
+\newline
 Then we consider that the pay scale may be influenced by the level of education and the work area, so we will analyze it on the assumption that different education levels and pay scales are different from those in the work area.\\
 % pic
 We found that at different levels of education, salary levels are basically normal distribution, so taking the level of compensation at different levels of education found. The proportion of high salaries at the educational level of masters and above is higher than that of other education levels. However, taking into consideration the low level of data in this level of education, The horizontal approximation is seen as a normal distribution.\\
@@ -153,12 +205,52 @@ First group variables (how to say later), then for each group i, for the i group
 \[woe_i = \ln(\frac{B_i / B_T}{G_i / G_T})\eqno (1)\]
 
 For example, if only the absolute value of woe is summed up, if some groups have a small number of A groups and a large number of B groups (obviously such a group is unreasonable), this is a small woe value of B and a large group A , Sum woe will not be small, apparently so unreasonable.
-
+\[IV_i = (\frac{B_i}{B_T} - \frac{G_i}{G_T}) * woe_i\eqno (2)\]
+\[IV = \sum_{k=0}^n IV_i\eqno (3)\]
 Finally, we can sort the variables according to the size of each variable IV value. The greater the IV to retain.
-
+\newline
 Take the credit scorecard modeling scenario as an example: X is the customer sample field, Y indicates whether the customer is overdue, where Y = 1 means overdue, Y = 0 means not overdue. We want to be able to use the information known to our clients to predict the probability of overdue after the customer borrows, in order to decide whether to lend.
 
 We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
+
+\section{Analysis of the Result}
+Through the prediction of the test data, the accuracy rate is 0.74, the recall rate is 0.51, and the overall prediction accuracy rate is 0.62 (see picture). Overall, the effect is not good. However, the issue of default assessment with credit rating, the more emphasis on recall rate, so the recall rate of 0.51 basically meet the demand.
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=12cm]{result.png}
+\caption{result analysis} \label{fig:result analysis}
+\end{figure}
+\newline
+
+Draw its ROC curve can be seen that the model can easily predict whether the default. However, in the process of model establishment, the model can only detect the correctness of the model to a certain extent because the quantity is less than the real one.
+\newpage
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=12cm]{ROC.png}
+\caption{ROC} \label{fig:ROC}
+\end{figure}
+
+\section{Model Evaluation}
+\subsection{Advantage}
+\begin{itemize}
+\item The established prediction model can be closely connected with the actual situation, and solve the problem with the actual situation, making the model has good versatility and promotion
+\item The model is calculated using a professional mathematical analysis software, a high degree of feasibility
+\item The data was carefully handled, re-encoding variables, they use the latter model
+\item Quantitative analysis of many influencing factors involved in the model, which makes the thesis persuasive
+\end{itemize}
+\subsection{Disadvantage}
+\begin{itemize}
+\item No detailed correlation test for variables in the data, leading to a higher significance for some of the variables
+\item For this problem, we introduce more external materials and create less ourselves
+\item due to the time, not a good grasp of the thesis center, people feel a bit scattered papers, failed to make a comprehensive revision
+\end{itemize}
+\subsection{Improvement}
+\begin{itemize}
+\item due to the time, the reference is not perfect, the follow-up can be slowly adjusted, and simplify the model
+\item using a single logistic regression model is not effective, follow-up can use adaboost and other integrated learning will be a number of simple model collection
+\end{itemize}
 
 % \begin{Theorem} \label{thm:latex}
 % \LaTeX
