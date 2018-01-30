@@ -2,18 +2,16 @@
 \mcmsetup{CTeX = false,   % 使用 CTeX 套装时，设置为 true
         tcn = 0000, problem = A,
         sheet = true, titleinsheet = true, keywordsinsheet = true,
-        titlepage = true, abstract = true}
+        titlepage = false, abstract = true}
 \usepackage{palatino}
 \usepackage{lipsum}
 \usepackage{amsmath}  
 \usepackage{amssymb} 
-\title{The \LaTeX{} Template for MCM Version \MCMversion}
-\author{\small \href{http://www.latexstudio.net/}
-  {\includegraphics[width=7cm]{mcmthesis-logo}}}
-\date{\today}
+\title{The \LaTeX{} Template for MCM Version }
+
 \begin{document}
 \begin{abstract}
-\lipsum[1]
+
 \begin{keywords}
 keyword1; keyword2
 \end{keywords}
@@ -59,47 +57,47 @@ The back of the content will be reflected above.\\
 \toprule
 Symbol & definition\\
 \hline
-TP & real case \\
+$TP$ & real case \\
 \hline
-FP & False Positives\\
+$FP$ & False Positives\\
 \hline
-FN & false counsel\\
+$FN$ & false counsel\\
 \hline
-TN & True Counter Example\\
+$TN$ & True Counter Example\\
 \hline
-i & Subscripts for various variables \\
+$i$ & Subscripts for various variables \\
 \hline
-woe\_i & a box of evidence weight \\
+$woe_i$ & a box of evidence weight \\
 \hline
-WOE & Weight of Evidence \\
+$WOE$ & Weight of Evidence \\
 \hline
-w & weight \\
+$w$ & weight \\
 \hline
-b & offset or constant \\
+$b$ & offset or constant \\
 \hline
 $\mathbf{w}$ & weight vector \\
 \hline
-IV\_i & Variables The amount of information in a bin \\
+$IV_i$ & Variables The amount of information in a bin \\
 \hline
-IV & Information value \\
+$IV$ & Information value \\
 \hline
-B\_i & the number of bad clients \\
+$B_i$ & the number of bad clients \\
 \hline
-B\_T & Total number of bad clients \\
+$B_T$ & Total number of bad clients \\
 \hline
-G\_i & number of good customers \\
+$G_i$ & number of good customers \\
 \hline
-G\_T & the total number of good customers \\
+$G_T$ & the total number of good customers \\
 \hline
-TPR & In all samples that are actually positive, the ratio correctly judged as positive\\
+$TPR$ & In all samples that are actually positive, the ratio correctly judged as positive\\
 \hline
-FPR & In all the negative samples, the ratio of false positives\\
+$FPR$ & In all the negative samples, the ratio of false positives\\
 \hline
-p\_i & The probability of the i-th item\\
+$p_i$ & The probability of the i-th item\\
 \hline
-H & measures the uncertainty of random variables\\
+$H$ & measures the uncertainty of random variables\\
 \hline
-Gini & Gini index (Gini impure)\\
+$Gini$ & Gini index (Gini impure)\\
 \hline
 \end{tabular}
 
@@ -220,14 +218,39 @@ IV & Predictive Ability\\
 \hline
 0.3 - 0.49 & HIGH\\
 \hline
->= 0.5 & VERYHIGH\\
+>= 0.5 & VERY HIGH\\
 \hline
 \end{tabular}
 \label{tab1}
 \end{table}
 
 Take the credit scorecard modeling scenario as an example: X is the customer sample field, Y indicates whether the customer is overdue, where Y = 1 means overdue, Y = 0 means not overdue. We want to be able to use the information known to our clients to predict the probability of overdue after the customer borrows, in order to decide whether to lend.
-
+\newline
+\begin{table}[h]
+\centering
+\caption{IV of the Attribute}
+\begin{tabular}{c|c}
+\hline
+Attribute & IV\\
+\hline
+LOAN\_DATE & 0.112\\
+\hline
+IS\_LOCAL & 0.032\\
+\hline
+WORK\_PROVINCE' & 0.233\\
+\hline
+EDU\_LEVEL & 0.025\\
+\hline
+MARRY\_STATUS & 0.012\\
+\hline
+SALARY\_LEVEL & 0.173\\
+\hline
+HAS\_FUND & 0.000\\
+\hline
+\end{tabular}
+\label{tab2}
+\end{table}
+\newline
 We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
 
 \section{Analysis of the Result}
@@ -266,8 +289,36 @@ Draw its ROC curve can be seen that the model can easily predict whether the def
 \begin{itemize}
 \item due to the time, the reference is not perfect, the follow-up can be slowly adjusted, and simplify the model
 \item using a single logistic regression model is not effective, follow-up can use adaboost and other integrated learning will be a number of simple model collection
-\end{itemize}
+Logistic regression is strongly data dependent on this problem, given the poor performance of logistic regression, we then use the decision tree algorithm to train and do some fine tuning.\\
 
+Common advantages of decision tree algorithms are as follows:
+\begin{itemize}
+\item high classification accuracy
+\item The generated model is simple
+\item Good robustness to noise data
+\end{itemize}
+We choose the gini coefficient as the basis for the division, the Gini index (Gini Impurity): the probability of a randomly selected sample being mispicked in the sample set.
+The overall data as before, adjusted the following test:\\
+Information entropy:\\
+\[H (X) = - \ sum_ {i = 1} ^ n p_i \ log (p_i)\eqno (4)\]
+Gini Coefficient:\\
+\[Gini (p) = \ sum_ {k = 1} ^ K p_k (1 - p_k)\eqno (5)\]
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=6.6cm]{matrix.png}
+\caption{Confusion Matrix} \label{fig:Confusion Matrix}
+\end{figure}
+
+Calculation can be a variety of evaluation indicators are as follows:\\
+acc 0.691375\\
+recall 0.669119512814\\
+precision 0.693582325092\\
+\newline
+As can be seen, relative to the previous logistic regression, the overall increase is larger. at this time,
+The impact of a relatively small sample of bad clients has been greatly reduced. Will not appear always tend to
+Evaluate as a good customer. It appears that over-sampling and under-sampling play a more significant role in the decision tree.
+The common credit rating indicators available on the web show that 60\% is acceptable and 70\% is good.
 % \begin{Theorem} \label{thm:latex}
 % \LaTeX
 % \end{Theorem}
@@ -277,89 +328,6 @@ Draw its ROC curve can be seen that the model can easily predict whether the def
 % \begin{proof}
 % The proof of theorem.
 % \end{proof}
-
-\subsection{Other Assumptions}
-\lipsum[6]
-\begin{itemize}
-\item
-\item
-\item
-\item
-\end{itemize}
-
-\lipsum[7]
-
-\section{Analysis of the Problem}
-\begin{figure}[h]
-\small
-\centering
-\includegraphics[width=12cm]{mcmthesis-aaa.eps}
-\caption{aa} \label{fig:aa}
-\end{figure}
-
-\lipsum[8] \eqref{aa}
-\begin{equation}
-a^2 \label{aa}
-\end{equation}
-
-\[
-  \begin{pmatrix}{*{20}c}
-  {a_{11} } & {a_{12} } & {a_{13} }  \\
-  {a_{21} } & {a_{22} } & {a_{23} }  \\
-  {a_{31} } & {a_{32} } & {a_{33} }  \\
-  \end{pmatrix}
-  = \frac{{Opposite}}{{Hypotenuse}}\cos ^{ - 1} \theta \arcsin \theta
-\]
-\lipsum[9]
-
-\[
-  p_{j}=\begin{cases} 0,&\text{if $j$ is odd}\\
-  r!\,(-1)^{j/2},&\text{if $j$ is even}
-  \end{cases}
-\]
-
-\lipsum[10]
-
-\[
-  \arcsin \theta  =
-  \mathop{{\int\!\!\!\!\!\int\!\!\!\!\!\int}\mkern-31.2mu
-  \bigodot}\limits_\varphi
-  {\mathop {\lim }\limits_{x \to \infty } \frac{{n!}}{{r!\left( {n - r}
-  \right)!}}} \eqno (1)
-\]
-
-\section{Calculating and Simplifying the Model  }
-\lipsum[11]
-
-\section{The Model Results}
-\lipsum[6]
-
-\section{Validating the Model}
-\lipsum[9]
-
-\section{Conclusions}
-\lipsum[6]
-
-\section{A Summary}
-\lipsum[6]
-
-\section{Evaluate of the Mode}
-
-\section{Strengths and weaknesses}
-\lipsum[12]
-
-\subsection{Strengths}
-\begin{itemize}
-\item \textbf{Applies widely}\\
-This  system can be used for many types of airplanes, and it also
-solves the interference during  the procedure of the boarding
-airplane,as described above we can get to the  optimization
-boarding time.We also know that all the service is automate.
-\item \textbf{Improve the quality of the airport service}\\
-Balancing the cost of the cost and the benefit, it will bring in
-more convenient  for airport and passengers.It also saves many
-human resources for the airline. \item \textbf{}
-\end{itemize}
 
 \begin{thebibliography}{99}
 \bibitem{1} D.~E. KNUTH   The \TeX{}book  the American
