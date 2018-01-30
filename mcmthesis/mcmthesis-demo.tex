@@ -33,6 +33,8 @@
         titlepage = true, abstract = true}
 \usepackage{palatino}
 \usepackage{lipsum}
+\usepackage{amsmath}  
+\usepackage{amssymb} 
 \title{The \LaTeX{} Template for MCM Version \MCMversion}
 \author{\small \href{http://www.latexstudio.net/}
   {\includegraphics[width=7cm]{mcmthesis-logo}}}
@@ -70,6 +72,49 @@ The back of the content will be reflected above.\\
 \item Assume that all borrowers have good credit history before
 \end{itemize}
 
+\section{Natations}
+\begin{tabular}{cc}
+\toprule
+Symbol & definition\\
+\hline
+TP & real case \\
+\hline
+FP & False Positives\\
+\hline
+FN & false counsel\\
+\hline
+TN & True Counter Example\\
+\hline
+i & Subscripts for various variables \\
+\hline
+woe\_i & a box of evidence weight \\
+\hline
+WOE & Weight of Evidence \\
+\hline
+w & weight \\
+\hline
+b & offset or constant \\
+\hline
+$\mathbf{w}$ & weight vector \\
+\hline
+IV\_i & Variables The amount of information in a bin \\
+\hline
+IV & Information value \\
+\hline
+B\_i & the number of bad clients \\
+\hline
+B\_T & Total number of bad clients \\
+\hline
+G\_i & number of good customers \\
+\hline
+G\_T & the total number of good customers \\
+\hline
+TPR & In all samples that are actually positive, the ratio correctly judged as positive\\
+\hline
+FPR & In all the negative samples, the ratio of false positives\\
+\hline
+\end{tabular}
+
 \section{Data Processing}
 \subsection{Data Screening}
 The amount of data is large, so our priority is to filter the data based on its completeness and validity.\\
@@ -88,6 +133,7 @@ First, we screen the data of 30,000 historical business data provided by the len
 \end{itemize}
 
 \begin{figure}
+\large
 \centering
 \includegraphics{map.png}
 \caption{National Economic Zone} \label{fig:National Economic Zone}
