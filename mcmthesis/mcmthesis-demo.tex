@@ -64,14 +64,15 @@ Take that Logistic regression algorithm is often used in today's commercial cred
 \item How to train the parameters of the algorithm to deal with the adjustment of the problem?
 \end{itemize}
 
-\section{Assumptions}
+\section{Assumptions and Notations}
+\subsection{Assumptions}
 \begin{itemize}
 \item Assume that the historical business data of the lender is stable and trustworthy
 \item Assume the default is not affected by emergencies
 \item Assume that all borrowers have good credit history before
 \end{itemize}
-\newpage
-\section{Notations}
+
+\subsection{Notations}
 \begin{table}[htb]
 \centering
 
@@ -208,9 +209,11 @@ Statistical statistics on the number of data labels found that the number of non
 \end{figure}
 
 \section{Our Model}
-Based on available information, consider the current credit scoring model and the industry's interpretative requirements for credit scoring models. Our initial consideration of the model is logistic regression.
+Considering the current credit scoring model and the industry's interpretative requirements for the credit scoring model, we considered is logistic regression algorithm as the initial strategy based on available information.
 
-The data, the marital status can not simply use the serial number to represent, this will result in some similar marital status but the actual situation is not. The marriage attribute itself is not sequential, so we carried out One-Hot encoding. By the same token, taking into account the rough change of the academic data itself, the order of academic qualifications becomes vague, and we also carry the One-Hot code for academic qualifications. Finally, consider the province data, the province of our data is a 6-digit zip code. It is observed that the left-most 2-digit postcode represents its province, so we converted that data to obtain the customer's province code. Taking into account the large number of provinces in China, we have reviewed the relevant information and found that China is divided into four major economic regions: the eastern region, the northeast region, the central region and the western region. The main contents of economic and social development in various regions are: development in the west, rejuvenation in the northeast, rise in the middle and development in the east. Taking into account the loan, credit score and economy, we divided the provinces data:
+For the strategy we adopted, the marital status, if expressed in a simple order, would make some of them considered similar, but that was not the case.Because the attribute of marriage itself is not sequential, so we code it One-Hot.In a similar way, we do the same to the data of education background
+
+
 
 Northeast China (Heilongjiang, Jilin, Liaoning, Hulunbeier, Xing'an League, Tongliao, Chifeng, Xilin Gol League in eastern Inner Mongolia Autonomous Region)
 
