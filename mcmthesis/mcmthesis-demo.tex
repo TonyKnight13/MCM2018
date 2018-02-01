@@ -78,48 +78,49 @@ Take that Logistic regression algorithm is often used in today's commercial cred
 \begin{tabular}{ll} 
 \toprule
 
-Symbol & Specification\\
+Symbol & Specification \\
 \toprule
+$TP$ & True Positives. \\
 
-$FP$ & False Positives\\
+$FP$ & False Positives.\\
 
-$FN$ & false counsel\\
+$FN$ & False Negative. \\
 
-$TN$ & True Counter Example\\
+$TN$ & True Negative. \\
 
-$i$ & Subscripts for various variables \\
+$i,j,k$ & Subscripts for various variables. \\
 
-$woe_i$ & a box of evidence weight \\
+$woe_i$ & A box of evidence weight. \\
 
-$WOE$ & Weight of Evidence \\
+$WOE$ & Weight of Evidence .\\
 
-$w$ & weight \\
+$w$ & Weight. \\
 
-$b$ & offset or constant \\
+$b$ & Offset or constant. \\
 
-$\mathbf{w}$ & weight vector \\
+$\mathbf{w}$ & Weight vector. \\
 
-$IV_i$ & Variables The amount of information in a bin \\
+$IV_i$ & Information value of a variable for each group.  \\
 
-$IV$ & Information value \\
+$IV$ & Information valu.e \\
 
-$B_i$ & the number of bad clients \\
+$B_i$ & The number of bad customers. \\
 
-$B_T$ & Total number of bad clients \\
+$B_T$ & The total of bad customers. \\
 
-$G_i$ & number of good customers \\
+$G_i$ & The number of good customers. \\
 
-$G_T$ & the total number of good customers \\
+$G_T$ & The total  of good customers. \\
 
-$TPR$ & In all samples that are actually positive, the ratio correctly judged as positive\\
+$TPR$ & The ratio of samples is correctly judged in positive samples.\\
 
-$FPR$ & In all the negative samples, the ratio of false positives\\
+$FPR$ & The ratio of samples is wrongly judged in negative samples.\\
 
-$p_i$ & The probability of the i-th item\\
+$p_i$ & The probability of the i-th item.\\
 
-$H$ & measures the uncertainty of random variables\\
+$H$ & The uncertainty of measuringrandom variables.\\
 
-$Gini$ & Gini index (Gini impure)\\
+$Gini$ & Gini index. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -255,7 +256,7 @@ Finally, we can sort the variables according to the size of each variable IV val
 \begin{table}[h]
 \centering
 \caption{Predicted based on IV value}
-\begin{tabular}{c|c}
+\begin{tabular}{|c|c|}
 \hline
 IV & Predictive Ability\\
 \hline
@@ -278,7 +279,7 @@ Take the credit scorecard modeling scenario as an example: X is the customer sam
 \begin{table}[h]
 \centering
 \caption{IV of the Attribute}
-\begin{tabular}{c|c}
+\begin{tabular}{|c|c|}
 \hline
 Attribute & IV\\
 \hline
