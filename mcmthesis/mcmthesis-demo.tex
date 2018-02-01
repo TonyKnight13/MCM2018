@@ -3,11 +3,14 @@
         tcn = 0028, problem = A,
         sheet = true, titleinsheet = true, keywordsinsheet = true,
         titlepage = false, abstract = true}
+
 \usepackage{palatino}
 \usepackage{lipsum}
 \usepackage{amsmath}  
 \usepackage{amssymb}
 \usepackage{indentfirst} 
+
+
 
 \setlength{\parindent}{1.5em}
 
@@ -67,55 +70,59 @@ Take that Logistic regression algorithm is often used in today's commercial cred
 \item Assume the default is not affected by emergencies
 \item Assume that all borrowers have good credit history before
 \end{itemize}
-
+\newpage
 \section{Natations}
-\begin{tabular}{cc}
+\begin{table}[htb]
+\centering
+
+\begin{tabular}{ll} 
 \toprule
-Symbol & definition\\
-\hline
-$TP$ & real case \\
-\hline
+
+Symbol & Specification\\
+\toprule
+
 $FP$ & False Positives\\
-\hline
+
 $FN$ & false counsel\\
-\hline
+
 $TN$ & True Counter Example\\
-\hline
+
 $i$ & Subscripts for various variables \\
-\hline
+
 $woe_i$ & a box of evidence weight \\
-\hline
+
 $WOE$ & Weight of Evidence \\
-\hline
+
 $w$ & weight \\
-\hline
+
 $b$ & offset or constant \\
-\hline
+
 $\mathbf{w}$ & weight vector \\
-\hline
+
 $IV_i$ & Variables The amount of information in a bin \\
-\hline
+
 $IV$ & Information value \\
-\hline
+
 $B_i$ & the number of bad clients \\
-\hline
+
 $B_T$ & Total number of bad clients \\
-\hline
+
 $G_i$ & number of good customers \\
-\hline
+
 $G_T$ & the total number of good customers \\
-\hline
+
 $TPR$ & In all samples that are actually positive, the ratio correctly judged as positive\\
-\hline
+
 $FPR$ & In all the negative samples, the ratio of false positives\\
-\hline
+
 $p_i$ & The probability of the i-th item\\
-\hline
+
 $H$ & measures the uncertainty of random variables\\
-\hline
+
 $Gini$ & Gini index (Gini impure)\\
-\hline
+\bottomrule
 \end{tabular}
+\end{table}
 
 \section{Data Processing}
 \subsection{Data Screening}
