@@ -1,26 +1,43 @@
 \documentclass{mcmthesis}
 \mcmsetup{CTeX = false,   % 使用 CTeX 套装时，设置为 true
-        tcn = 0000, problem = A,
+        tcn = 0028, problem = A,
         sheet = true, titleinsheet = true, keywordsinsheet = true,
         titlepage = false, abstract = true}
 \usepackage{palatino}
 \usepackage{lipsum}
 \usepackage{amsmath}  
-\usepackage{amssymb} 
-\title{The \LaTeX{} Template for MCM Version }
+\usepackage{amssymb}
+\usepackage{indentfirst} 
+
+\setlength{\parindent}{1.5em}
+
+\title{The Modeling of Credit Scoring System }
 
 \begin{document}
 \begin{abstract}
+  
+The risk of Internet finance is increasingly apparent. 
+It is urgent to build a credit scoring model based on the data of internet finance to improve the risk control level. Based on personal credit history and credit behavior data, credit behavior model derived from data mining and mathematical statistics method can predict individual's future credit performance more accurately, improve the efficiency of Internet operation and reduce the credit cost of Internet financial transaction .
 
+We try to construct a credit score model for users by lending information to users and use machine learning model to optimize the performance of credit score based on exploring certain feature engineering.
+
+In feature selection, we employ One-Hot, binning, WOE coding and IV values ​​to extract useful training data from user's data as much as possible.
+
+In the model, we use the basic model of machine learning logistic regression and decision tree for binary training. Performance is less than ideal in logistic regression, although commercial credit ratings are mostly logistic regression. However, under given data conditions, the model is weaker than the decision tree.
+
+With the same characteristics, the decision tree model can achieve better credit score performance. Thus, it can be seen that in the case of weak data, the decision tree may have better performance than logistic regression in modeling credit score. Today's mainstream credit scoring model may have many enhancements without losing the benefits of interpretability.
 \begin{keywords}
-keyword1; keyword2
+credit scoring; logistic regression; WOE; IV
 \end{keywords}
 \end{abstract}
 \maketitle
+\tableofcontents
+\newpage
 \section{Introduction}
 \subsection{Restatement of Problem}
-Mathematical problems in the modeling of credit scoring system
+
 With the continuous improvement of Internet technology and the increasing number of its users, Internet Finance emerges as the times require. At present, it has been springing up, showing a variety of business models and operation mechanisms. It has advantages which have no for other traditional financial , such as the Internet financial institutions can break through the time and geographical constraints,  provide more efficient financial services for the financing needs of customers on the Internet,  use Internet technology, accelerate business processing speed, and give users a better service experience. But at the same time, risks of Internet financial have raised and become more and more, for example, there are problems such as credit risk and user fraud, there is the urgent need to improve the level of risk control by using the Internet financial data,such as to construct a credit scoring model identification and use the model for effective user level for Internet users.
+
 Credit bureaus can collect the abundant information data by making use of  the Internet, use various data processing methods and data modeling skills, and establish a comprehensive credit evaluation model. At the same time the massive and rich data in the personal credit history and credit behavior based on ones , obtain credit behavior model by using data mining and statistical method,  get more accurately the prediction of the future performance of personal credit, improve the efficiency of operation of the Internet,reduce the cost of credit for the Internet financial transactions ,and be able to estimate the risk of Internet consumer credit. The Internet is an important tool which is irreplaceable in financial institutions . Therefore, the establishment of a precise credit scoring system is of great significance for the Internet financial enterprises. For this problem, the historical business data of a loan institution is given as the original data. The following tasks are completed:
 \begin{itemize}
 \item it is necessary to extract the main factors that affect the user's credit based on the given data.
@@ -29,12 +46,12 @@ Credit bureaus can collect the abundant information data by making use of  the I
 \item using the established model to analyze the type of default: the objective type (due to the economic environment or the objective conditions) and the subjective type (the conditions are also deliberately not returned).
 \end{itemize}
 \subsection{Problem Background}
-With the continuous development of Internet technology, its influence has permeated every aspect of life. Internet finance has come into being. Compared with traditional finance, Internet finance has the advantages of favoring people. For example, it achieves faster business processing speed, breaks the time and space constraints, provides faster and more convenient financial services and brings better user experience Service experience. However, at the same time, the risks it brings are becoming more and more obvious. For example, credit risk and user fraud, in this context, a set of perfect and effective credit scoring system is particularly important.\\
 
+With the continuous development of Internet technology, its influence has permeated every aspect of life. Internet finance has come into being. Compared with traditional finance, Internet finance has the advantages of favoring people. For example, it achieves faster business processing speed, breaks the time and space constraints, provides faster and more convenient financial services and brings better user experience Service experience. However, at the same time, the risks it brings are becoming more and more obvious. For example, credit risk and user fraud, in this context, a set of perfect and effective credit scoring system is particularly important.
 \subsection{Our Work}
-Credit scoring is based on customer credit history data, using a certain credit score model, get different grades of credit scores. Depending on the customer's credit score, the creditor can analyze the customer's likelihood of repaying on time. Although creditors can also get the result of such analysis by analyzing the customer's credit history, the use of credit scores is faster, more objective, and more consistent.\\
-\newline
-Given that Logistic regression algorithms are often used in today's commercial credit scoring models, we mainly try this algorithm and decision tree algorithms to train, focusing on data cleaning and variable selection and construction. Some of the choices for variable selection are mainly the screening of credit scores commonly used in the industry. For the given data, we mainly do the following thinking:\\
+Credit scoring is based on customer credit history data, using a certain credit score model, get different grades of credit scores. Depending on the customer's credit score, the creditor can analyze the customer's likelihood of repaying on time. Although creditors can also get the result of such analysis by analyzing the customer's credit history, the use of credit scores is faster, more objective, and more consistent.
+
+Given that Logistic regression algorithms are often used in today's commercial credit scoring models, we mainly try this algorithm and decision tree algorithms to train, focusing on data cleaning and variable selection and construction. Some of the choices for variable selection are mainly the screening of credit scores commonly used in the industry. For the given data, we mainly do the following thinking:
 \begin{itemize}
 \item Which of these customer data sets is unusable.
 \item What is the ratio between good and bad customers, how to deal with imbalances.
@@ -43,7 +60,6 @@ Given that Logistic regression algorithms are often used in today's commercial c
 \item Some of the data to do some conversion, making it more suitable for training.
 \item Training algorithm itself parameters should be adjusted to the problem.
 \end{itemize}
-The back of the content will be reflected above.\\
 
 \section{Assumptions}
 \begin{itemize}
@@ -104,6 +120,7 @@ $Gini$ & Gini index (Gini impure)\\
 \section{Data Processing}
 \subsection{Data Screening}
 The amount of data is large, so our priority is to filter the data based on its completeness and validity.\\
+
 First, we screen the data of 30,000 historical business data provided by the lender:\\
 \begin{itemize}
 \item Since tag attributes are crucial and can not be completed, we delete all business data that did not indicate a default.
@@ -112,10 +129,10 @@ First, we screen the data of 30,000 historical business data provided by the len
 
 \subsection{Data Merging}
 \begin{itemize}
-\item when processing the data we found that the education level variables, there are college and below, junior high school and junior high school, the four classification of repeated phenomena, which are repeated graduate, doctoral and master's degree and more than three kinds of classification, so we will and specialist and below master degree or above and two classification.
-\item at the same time, we found that two kinds of definitions of divorce and divorce were duplicated in the marital status. We merged them into divorce. At the same time, we considered the semantic description of marital status. We merged the widowhood into divorce and merged the other into the unmarried.
-\item for borrowing time, we provide data from January to June 2017, so we combine it into 6 categories representing 6 months to facilitate later use. .
-\item for the working provinces, we divide the provinces into four large areas, the eastern, the northeast, the central and the western regions, according to the division of the sixteen regions of the Communist Party of China and the development of the provinces in the past year (Figure).
+\item When processing the data we found that the education level variables, there are college and below, junior high school and junior high school, the four classification of repeated phenomena, which are repeated graduate, doctoral and master's degree and more than three kinds of classification, so we will and specialist and below master degree or above and two classification.
+\item At the same time, we found that two kinds of definitions of divorce and divorce were duplicated in the marital status. We merged them into divorce. At the same time, we considered the semantic description of marital status. We merged the widowhood into divorce and merged the other into the unmarried.
+\item For borrowing time, we provide data from January to June 2017, so we combine it into 6 categories representing 6 months to facilitate later use. .
+\item For the working provinces, we divide the provinces into four large areas, the eastern, the northeast, the central and the western regions, according to the division of the sixteen regions of the Communist Party of China and the development of the provinces in the past year (Figure).
 \end{itemize}
 
 \begin{figure}[h]
@@ -127,27 +144,51 @@ First, we screen the data of 30,000 historical business data provided by the len
 
 \subsection{Missing Value Processing}
 
-In statistics, missing data occur when no data value is stored for the variable in an observation.Missing data are a common occurrence and can have a significant effect on the conclusions that can be drawn from the data.\\
-\newline
-In the data we use, there is a large amount of data that is missing a salary grade variable, and we consider doing so due to the lack of a large amount of data and the variable is a numeric data with a continuous relationship. We have statistics on the available data and found that the overall data is normally distributed.\\
-% 图
+In statistics, missing data occur when no data value is stored for the variable in an observation.Missing data are a common occurrence and can have a significant effect on the conclusions that can be drawn from the data.
+
+In the data we use, there is a large amount of data that is missing a salary grade variable, and we consider doing so due to the lack of a large amount of data and the variable is a numeric data with a continuous relationship. We have statistics on the available data and found that the overall data is normally distributed.
+\newpage
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=12cm]{sosl.png}
+\includegraphics[width=10cm]{sosl.png}
 \caption{The level of salary statistics} \label{fig:The level of salary statistics}
 \end{figure}
-\newline
-Then we consider that the pay scale may be influenced by the level of education and the work area, so we will analyze it on the assumption that different education levels and pay scales are different from those in the work area.\\
-% pic
-We found that at different levels of education, salary levels are basically normal distribution, so taking the level of compensation at different levels of education found. The proportion of high salaries at the educational level of masters and above is higher than that of other education levels. However, taking into consideration the low level of data in this level of education, The horizontal approximation is seen as a normal distribution.\\
-\newline
-For different workplaces, we also analyze their salary levels.\\
+
+Then we consider that the pay scale may be influenced by the level of education and the work area, so we will analyze it on the assumption that different education levels and pay scales are different from those in the work area.
+
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=10cm]{un.png}
+\caption{Undergraduate education level of the amount of salary level statistics} \label{fig:Undergraduate education level of the amount of salary level statistics}
+\end{figure}
+
+We found that at different levels of education, salary levels are basically normal distribution, so taking the level of compensation at different levels of education found. The proportion of high salaries at the educational level of masters and above is higher than that of other education levels. However, taking into consideration the low level of data in this level of education, The horizontal approximation is seen as a normal distribution.
+\newpage
+
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=10cm]{east.png}
+\caption{The eastern region of the amount of salary level statistics} \label{fig:The eastern region of the amount of salary level statistics}
+\end{figure}
+
+For different workplaces, we also analyze their salary levels.
+
 We also found that in all workplaces, all salary levels are normally distributed, so we conclude that the salary level in this data is normally distributed, with no educational level or work area impact.
-\newline
-In this regard, we take the average and mode and draw the relevant charts for a preliminary analysis.\\
-% biao
-We can see that the average is 3.58 and the mode is 3. Taking into consideration and facilitating our later use, we decided to set the missing value of all pay levels to 3.\\
+
+In this regard, we take the average and mode and draw the relevant charts for a preliminary analysis.
+
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=12cm]{sp.png}
+\caption{The amount of salary level statistics} \label{fig:The amount of salary level statistics}
+\end{figure}
+
+We can see that the average is 3.58 and the mode is 3. Taking into consideration and facilitating our later use, we decided to set the missing value of all pay levels to 3.
+
 \subsection{Unbalanced Data Processing}
 Statistical statistics on the number of data labels found that the number of non-defaults is much larger than the number of defaults (as shown in the figure), which easily leads our model to predict all the results as non-defaulting during training, and the final correctness rate is as high as 0.9 on the surface The actual prediction accuracy of the default is 0, in order to avoid this phenomenon, we under-sampled and oversampled the data processing, making the difference between the two types of data should not be too large
 \newline
@@ -160,17 +201,17 @@ Statistical statistics on the number of data labels found that the number of non
 
 \section{Our Model}
 Based on available information, consider the current credit scoring model and the industry's interpretative requirements for credit scoring models. Our initial consideration of the model is logistic regression.
-\newline
+
 The data, the marital status can not simply use the serial number to represent, this will result in some similar marital status but the actual situation is not. The marriage attribute itself is not sequential, so we carried out One-Hot encoding. By the same token, taking into account the rough change of the academic data itself, the order of academic qualifications becomes vague, and we also carry the One-Hot code for academic qualifications. Finally, consider the province data, the province of our data is a 6-digit zip code. It is observed that the left-most 2-digit postcode represents its province, so we converted that data to obtain the customer's province code. Taking into account the large number of provinces in China, we have reviewed the relevant information and found that China is divided into four major economic regions: the eastern region, the northeast region, the central region and the western region. The main contents of economic and social development in various regions are: development in the west, rejuvenation in the northeast, rise in the middle and development in the east. Taking into account the loan, credit score and economy, we divided the provinces data:
-\newline
+
 Northeast China (Heilongjiang, Jilin, Liaoning, Hulunbeier, Xing'an League, Tongliao, Chifeng, Xilin Gol League in eastern Inner Mongolia Autonomous Region)
-\newline
+
 Middle region (Shanxi, Henan, Hubei, Hunan, Jiangxi, Anhui)
-\newline
+
 Eastern China (Beijing, Tianjin, Hebei, Shandong, Jiangsu, Shanghai, Zhejiang, Fujian, Guangdong, Hainan)
-\newline
+
 Western Region (Sichuan Province, Guangxi Zhuang Autonomous Region, Guizhou Province, Yunnan Province, Chongqing Municipality, Shaanxi Province, Gansu Province, West Inner Mongolia Autonomous Region, Ningxia Hui Autonomous Region, Xinjiang Uygur Autonomous Region, Qinghai Province and Tibet Autonomous Region)
-\newline
+
 The following is based on the first two digits of the ID card coding:
 \begin{itemize}
   \item Northeast: 21,22,23
@@ -180,29 +221,30 @@ The following is based on the first two digits of the ID card coding:
 \end{itemize}
 
 In fact, there is no order between provinces, so we once again conducted One-Hot encoding on the data.
-\newline
+
 After the above steps, the current data should be able to train. However, before training, we still need to do some characteristic engineering.
+
 We use a method commonly used in the industry for screening based on IV values.
-\newline
-\newline
-First introduce concepts and formulas.\\
-\newline
-\newline
+
+First introduce concepts and formulas.
+
 The full name of IV is Information Value, find the value of wo first wo value, here also introduced the concept of woe.
-\newline
-WOE (weight of Evidence) is actually an influence on the proportion of default when a certain value is taken from an independent variable. After WOE encoding, the independent variable actually has some standardized nature, that is, each value of the independent variable Can be directly compared (between WOE), and various values ​​between different independent variables can also be directly compared by WOE. Furthermore, we can study the variation (fluctuation) of the WOE value in the independent variable and construct the contribution rate and relative importance of each independent variable in combination with the coefficients fitted by the model. In general, the larger the coefficient, the greater the variance of woe, the greater the contribution of the independent variable (similar to some variance contribution), which can also be intuitively understood.\\
+
+WOE (weight of Evidence) is actually an influence on the proportion of default when a certain value is taken from an independent variable. After WOE encoding, the independent variable actually has some standardized nature, that is, each value of the independent variable Can be directly compared (between WOE), and various values ​​between different independent variables can also be directly compared by WOE. Furthermore, we can study the variation (fluctuation) of the WOE value in the independent variable and construct the contribution rate and relative importance of each independent variable in combination with the coefficients fitted by the model. In general, the larger the coefficient, the greater the variance of woe, the greater the contribution of the independent variable (similar to some variance contribution), which can also be intuitively understood.
+
 To conclude, the process of independent variables (including coding and filtering) is largely based on the evaluation of the effects of univariate models when doing credit scoring models. In this evaluation process, ROC and IV examine the impact of independent variables on the target variables from different perspectives. Based on this investigation, we used the WOE value to encode the categorical independent variables so that the independent variables can be more intuitively understood The role of variables and direction, while enhancing the prediction effect.
-\newline
+
 The advantages of WOE transformation: Improve the predictive effect of the model and improve the comprehensibility of the model.
-\newline
+
 First group variables (how to say later), then for each group i, for the i group:
 \[woe_i = \ln(\frac{B_i / B_T}{G_i / G_T})\eqno (1)\]
 
 For example, if only the absolute value of woe is summed up, if some groups have a small number of A groups and a large number of B groups (obviously such a group is unreasonable), this is a small woe value of B and a large group A , Sum woe will not be small, apparently so unreasonable.
 \[IV_i = (\frac{B_i}{B_T} - \frac{G_i}{G_T}) * woe_i\eqno (2)\]
 \[IV = \sum_{k=0}^n IV_i\eqno (3)\]
+
 Finally, we can sort the variables according to the size of each variable IV value. The greater the IV to retain.
-\newline
+
 \begin{table}[h]
 \centering
 \caption{Predicted based on IV value}
@@ -225,7 +267,7 @@ IV & Predictive Ability\\
 \end{table}
 
 Take the credit scorecard modeling scenario as an example: X is the customer sample field, Y indicates whether the customer is overdue, where Y = 1 means overdue, Y = 0 means not overdue. We want to be able to use the information known to our clients to predict the probability of overdue after the customer borrows, in order to decide whether to lend.
-\newline
+
 \begin{table}[h]
 \centering
 \caption{IV of the Attribute}
@@ -250,18 +292,18 @@ HAS\_FUND & 0.000\\
 \end{tabular}
 \label{tab2}
 \end{table}
-\newline
+
 We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
 
 \section{Analysis of the Result}
 Through the prediction of the test data, the accuracy rate is 0.74, the recall rate is 0.51, and the overall prediction accuracy rate is 0.62 (see picture). Overall, the effect is not good. However, the issue of default assessment with credit rating, the more emphasis on recall rate, so the recall rate of 0.51 basically meet the demand.
+\newpage
 \begin{figure}[h]
 \small
 \centering
 \includegraphics[width=12cm]{result.png}
 \caption{result analysis} \label{fig:result analysis}
 \end{figure}
-\newline
 
 Draw its ROC curve can be seen that the model can easily predict whether the default. However, in the process of model establishment, the model can only detect the correctness of the model to a certain extent because the quantity is less than the real one.
 \begin{figure}[h]
@@ -289,7 +331,9 @@ Draw its ROC curve can be seen that the model can easily predict whether the def
 \begin{itemize}
 \item due to the time, the reference is not perfect, the follow-up can be slowly adjusted, and simplify the model
 \item using a single logistic regression model is not effective, follow-up can use adaboost and other integrated learning will be a number of simple model collection
-Logistic regression is strongly data dependent on this problem, given the poor performance of logistic regression, we then use the decision tree algorithm to train and do some fine tuning.\\
+\end{itemize}
+
+Logistic regression is strongly data dependent on this problem, given the poor performance of logistic regression, we then use the decision tree algorithm to train and do some fine tuning.
 
 Common advantages of decision tree algorithms are as follows:
 \begin{itemize}
@@ -297,28 +341,49 @@ Common advantages of decision tree algorithms are as follows:
 \item The generated model is simple
 \item Good robustness to noise data
 \end{itemize}
+
 We choose the gini coefficient as the basis for the division, the Gini index (Gini Impurity): the probability of a randomly selected sample being mispicked in the sample set.
+
 The overall data as before, adjusted the following test:\\
 Information entropy:\\
 \[H (X) = - \ sum_ {i = 1} ^ n p_i \ log (p_i)\eqno (4)\]
 Gini Coefficient:\\
 \[Gini (p) = \ sum_ {k = 1} ^ K p_k (1 - p_k)\eqno (5)\]
+\newpage
 \begin{figure}[h]
 \small
 \centering
-\includegraphics[width=6.6cm]{matrix.png}
+\includegraphics[width=12cm]{matrix.png}
 \caption{Confusion Matrix} \label{fig:Confusion Matrix}
 \end{figure}
 
-Calculation can be a variety of evaluation indicators are as follows:\\
-acc 0.691375\\
-recall 0.669119512814\\
-precision 0.693582325092\\
-\newline
+Calculation can be a variety of evaluation indicators are as follows:
+\begin{table}[h]
+\centering
+\caption{Evaluation Index}
+\begin{tabular}{c|c}
+\hline
+acc & 0.691375\\
+\hline
+recall & 0.669119512814\\
+\hline
+precision & 0.693582325092\\
+\hline
+\end{tabular}
+\label{tab2}
+\end{table}]
+
 As can be seen, relative to the previous logistic regression, the overall increase is larger. at this time,
 The impact of a relatively small sample of bad clients has been greatly reduced. Will not appear always tend to
 Evaluate as a good customer. It appears that over-sampling and under-sampling play a more significant role in the decision tree.
 The common credit rating indicators available on the web show that 60\% is acceptable and 70\% is good.
+\begin{figure}[h]
+\small
+\centering
+\includegraphics[width=12cm]{ei.png}
+\caption{Matrix evaluation index} \label{fig:Matrix evaluation index}
+\end{figure}
+
 % \begin{Theorem} \label{thm:latex}
 % \LaTeX
 % \end{Theorem}
@@ -330,32 +395,19 @@ The common credit rating indicators available on the web show that 60\% is accep
 % \end{proof}
 
 \begin{thebibliography}{99}
-\bibitem{1} D.~E. KNUTH   The \TeX{}book  the American
-Mathematical Society and Addison-Wesley
-Publishing Company , 1984-1986.
-\bibitem{2}Lamport, Leslie,  \LaTeX{}: `` A Document Preparation System '',
-Addison-Wesley Publishing Company, 1986.
-\bibitem{3}\url{http://www.latexstudio.net/}
-\bibitem{4}\url{http://www.chinatex.org/}
+% \bibitem{1} D.~E. KNUTH   The \TeX{}book  the American
+% Mathematical Society and Addison-Wesley
+% Publishing Company , 1984-1986.
+% \bibitem{2}Lamport, Leslie,  \LaTeX{}: `` A Document Preparation System '',
+% Addison-Wesley Publishing Company, 1986.
+\bibitem{1}\url{https://zhuanlan.zhihu.com/p/27770760}
+\bibitem{2}\url{http://news.cnfol.com/guoneicaijing/20180124/25946369.shtml}
+\bibitem{3}\url{https://en.wikipedia.org/wiki/Credit_scoret}
+\bibitem{4}\url{https://zhuanlan.zhihu.com/p/30026040}
+\bibitem{5}\url{https://help.aliyun.com/document_detail/55269.html?spm=5176.10695662.1996646101.searchclickresult.2b4af88cKoTF8e
+}
 \end{thebibliography}
 
-\begin{appendices}
-
-\section{First appendix}
-
-\lipsum[13]
-
-Here are simulation programmes we used in our model as follow.\\
-
-\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input matlab source:}}
-\lstinputlisting[language=Matlab]{./code/mcmthesis-matlab1.m}
-
-\section{Second appendix}
-
-some more text \textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input C++ source:}}
-\lstinputlisting[language=C++]{./code/mcmthesis-sudoku.cpp}
-
-\end{appendices}
 \end{document}
 
 %% 
