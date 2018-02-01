@@ -213,48 +213,41 @@ Considering the current credit scoring model and the industry's interpretative r
 
 For the strategy we adopted, the marital status, if expressed in a simple order, would make some of them considered similar, but that was not the case.Because the attribute of marriage itself is not sequential, so we code it One-Hot.In a similar way, we do the same to the data of education background
 
+Finally we take the province data into consideration, the data we use reflect the regional is a 6-digit code. It is observed that the left-most 2-digit of the 6-digit code  represents province. Hence we keep the left-most 2-digit. As we all know, China is a big country with many provinces. Aftering reviewing the relevant information, we find that China can be divided into four major economic regions: the eastern region, the northeast region, the central region and the western region.The main contents of economic and social development in various regions are: development in the west, rejuvenation in the northeast, rise in the middle and development in the east. Taking into account the loan, credit score link with economy, we divided the provinces data according the four regions:
+\begin{itemize}
+  \item Northeast: Heilongjiang, Jilin, Liaoning, Hulunbeier, Xing'an League, Tongliao, Chifeng, Xilin Gol League in eastern Inner Mongolia Autonomous Region
+  \item Middle: Shanxi, Henan, Hubei, Hunan, Jiangxi, Anhui
+  \item East: Beijing, Tianjin, Hebei, Shandong, Jiangsu, Shanghai, Zhejiang, Fujian, Guangdong, Hainan 
+  \item West: Sichuan Province, Guangxi Zhuang Autonomous Region, Guizhou Province, Yunnan Province, Chongqing Municipality, Shaanxi Province, Gansu Province, West Inner Mongolia Autonomous Region, Ningxia Hui Autonomous Region, Xinjiang Uygur Autonomous Region, Qinghai Province and Tibet Autonomous Region
+\end{itemize}
 
+The following is based on the left-most 2-digit of the ID card number:
 
-Northeast China (Heilongjiang, Jilin, Liaoning, Hulunbeier, Xing'an League, Tongliao, Chifeng, Xilin Gol League in eastern Inner Mongolia Autonomous Region)
-
-Middle region (Shanxi, Henan, Hubei, Hunan, Jiangxi, Anhui)
-
-Eastern China (Beijing, Tianjin, Hebei, Shandong, Jiangsu, Shanghai, Zhejiang, Fujian, Guangdong, Hainan)
-
-Western Region (Sichuan Province, Guangxi Zhuang Autonomous Region, Guizhou Province, Yunnan Province, Chongqing Municipality, Shaanxi Province, Gansu Province, West Inner Mongolia Autonomous Region, Ningxia Hui Autonomous Region, Xinjiang Uygur Autonomous Region, Qinghai Province and Tibet Autonomous Region)
-
-The following is based on the first two digits of the ID card coding:
 \begin{itemize}
   \item Northeast: 21,22,23
   \item Middle: 14,41,42,43,36,34
   \item East: 11,12,13,37,32,31,33,35,44,46  
-  \item Western Region: 51,45,52,53,50,61,62,15,64,65,63,54
+  \item West: 51,45,52,53,50,61,62,15,64,65,63,54
 \end{itemize}
 
-In fact, there is no order between provinces, so we once again conducted One-Hot encoding on the data.
+In fact, there is no order between provinces, so we code the data of province One-Hot once again.
+\newline
+\\
 
-After the above steps, the current data should be able to train. However, before training, we still need to do some characteristic engineering.
+After the above steps, the current data should be able to train. However, before training, we still need to do some feature Engineering.We use a method commonly used in the industry for screening based on IV.The full name of IV is Information Value, we should get the woe of the data before getting IV of the data.
 
-We use a method commonly used in the industry for screening based on IV values.
+WOE (weight of Evidence) reflects an influence on the proportion of default when an independent variable takes a certain value. After WOE encoding, the independent variable actually has some standardized nature, that is, each value of the independent variable van be directly compared (between WOE), and various values between different independent variables can also be directly compared by WOE. Furthermore, we can study the variation (fluctuation) of the WOE in the independent variable to construct the contribution rate and relative importance of each independent variable in combination with the coefficients fitted by the model.In general, the greater the coefficient, the greater the variance of woe, the greater the contribution of the independent variable (similar to some variance contribution), which can be intuitively understood.
 
-First introduce concepts and formulas.
+To sum up, the process of independent variables (including coding and filtering) is largely based on the evaluation of the effects of univariate models when doing credit scoring models. In this evaluation process, ROC and IV examine the impact of independent variables on the target variables from different perspectives. Based on this investigation, we use  WOE to encode non-numeric relational variables so that we can more intuitively understand the effect and direction of the independent variables on the target variables and improve the prediction results.
 
-The full name of IV is Information Value, find the value of wo first wo value, here also introduced the concept of woe.
-
-WOE (weight of Evidence) is actually an influence on the proportion of default when a certain value is taken from an independent variable. After WOE encoding, the independent variable actually has some standardized nature, that is, each value of the independent variable Can be directly compared (between WOE), and various values ​​between different independent variables can also be directly compared by WOE. Furthermore, we can study the variation (fluctuation) of the WOE value in the independent variable and construct the contribution rate and relative importance of each independent variable in combination with the coefficients fitted by the model. In general, the larger the coefficient, the greater the variance of woe, the greater the contribution of the independent variable (similar to some variance contribution), which can also be intuitively understood.
-
-To conclude, the process of independent variables (including coding and filtering) is largely based on the evaluation of the effects of univariate models when doing credit scoring models. In this evaluation process, ROC and IV examine the impact of independent variables on the target variables from different perspectives. Based on this investigation, we used the WOE value to encode the categorical independent variables so that the independent variables can be more intuitively understood The role of variables and direction, while enhancing the prediction effect.
-
-The advantages of WOE transformation: Improve the predictive effect of the model and improve the comprehensibility of the model.
-
-First group variables (how to say later), then for each group i, for the i group:
+First, group the variable into groups.And then, for each group , for the i-th group:
 \[woe_i = \ln(\frac{B_i / B_T}{G_i / G_T})\eqno (1)\]
 
-For example, if only the absolute value of woe is summed up, if some groups have a small number of A groups and a large number of B groups (obviously such a group is unreasonable), this is a small woe value of B and a large group A , Sum woe will not be small, apparently so unreasonable.
+For example, if only the absolute value of woe is summed. Assuming that some groups such as Group A and Group B. Group A is with small number, which is opposite to Group B (obviously such a group is not reasonable), then woe of group B is very small which is opposite to Group A. The outcome of the case is that the sum of woe will not be small, but apparently so unreasonable.
 \[IV_i = (\frac{B_i}{B_T} - \frac{G_i}{G_T}) * woe_i\eqno (2)\]
 \[IV = \sum_{k=0}^n IV_i\eqno (3)\]
 
-Finally, we can sort the variables according to the size of each variable IV value. The greater the IV to retain.
+Finally, we can sort the variables according to the IV size of each variable. The larger IV, the more variables to be retained.
 
 \begin{table}[h]
 \centering
@@ -304,8 +297,7 @@ HAS\_FUND & 0.000\\
 \label{tab2}
 \end{table}
 
-We calculate the WOE value of each attribute field for the previous data, and then calculate the corresponding IV value based on the WOE value. IV measures the amount of information on a variable. IV can be used to represent the predictive power of a variable.
-
+We calculate the WOE of each attribute field for the previous data, and then calculate the corresponding IV based on the WOE . IV measures the amount of information on a variable which explain the reason IV can be used to represent the predictive power of a variable.
 \section{Analysis of the Result}
 Through the prediction of the test data, the accuracy rate is 0.74, the recall rate is 0.51, and the overall prediction accuracy rate is 0.62 (see picture). Overall, the effect is not good. However, the issue of default assessment with credit rating, the more emphasis on recall rate, so the recall rate of 0.51 basically meet the demand.
 \newpage
@@ -327,7 +319,7 @@ Draw its ROC curve can be seen that the model can easily predict whether the def
 \section{Model Evaluation}
 \subsection{Advantage}
 \begin{itemize}
-\item The established prediction model can be closely connected with the actual situation, and solve the problem with the actual situation, making the model has good versatility and promotion
+\item The established predictive model can be closely linked with the actual situation, and solve the problems according to the actual situation so that the model has good universality and promotion.
 \item The model is calculated using a professional mathematical analysis software, a high degree of feasibility
 \item The data was carefully handled, re-encoding variables, they use the latter model
 \item Quantitative analysis of many influencing factors involved in the model, which makes the thesis persuasive
